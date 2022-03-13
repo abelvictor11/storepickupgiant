@@ -1,0 +1,12 @@
+<div class="giant-extrafields-block" style="width:100%;margin-bottom:25px;" visible="visible()" >
+    <form id="giant-extra-fields" class="form" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
+        <fieldset class="fieldset">
+            <!-- ko foreach: getRegion('giant-extra-fields-fields') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </fieldset>
+        <!--<button type="button" data-bind="click: onSubmit" class="action">
+            <span data-bind="i18n: 'Submit'"></span>
+        </button>-->
+    </form>
+</div>
