@@ -1,7 +1,6 @@
 <?php
 
 namespace BikeExchange\FixStoreLocator\Plugin\Model;
-
 class ValidateShipping
 {
 
@@ -15,7 +14,7 @@ class ValidateShipping
     {
 
         $this->_productRepository = $productRepository;
-        $this->cart = $cart;
+        $this->_cart = $cart;
     }
 
     public function hasBikeCategory() {
@@ -24,11 +23,10 @@ class ValidateShipping
         $bikeCategoryId = 3;
 
         $products = $this->_cart->getQuote()->getItemsCollection();
+
         foreach ($products as $product) {
-
             $productId = $product->getProductId();
-
-            $productData = $_productRepository->getById($productId);
+            $productData = $this->_productRepository->getById($productId);
 
             $categoryList = $productData->getCategoryIds(); 
             if (is_array($categoryList)) {
@@ -41,7 +39,6 @@ class ValidateShipping
         
         return $hasBike;
 
-
     }
 
 
@@ -53,26 +50,17 @@ class ValidateShipping
     )
     {
 
-        $hasBikeCategory = $this->hasBikeCategory();
-
-        $writer = new \Zend\Log\Writer\Stream(BP.'/var/log/magento2.log');
-        $logger = new \Zend\Log\Logger();
-        $logger->addWriter($writer);     
-        $logger->info("NUevo Inside " . $carrierCode);
-        //return false;
+         $hasBikeCategory = $this->hasBikeCategory();
         
         if ($carrierCode == 'flatrate') {
-            $logger->info("Inside" );
             if ($hasBikeCategory) {
                 return false;
-            }
+            } 
         } else if ($carrierCode == 'amstorepickup') {
             if (!$hasBikeCategory) {
                 return false;
             }
-        }  else {
-            $logger->info("No Inside" );
-        }
+        } 
            // To enable the shipping method
         return $proceed($carrierCode, $request);
     }
