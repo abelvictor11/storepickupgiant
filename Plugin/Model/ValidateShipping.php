@@ -50,18 +50,27 @@ class ValidateShipping
     )
     {
 
-         $hasBikeCategory = $this->hasBikeCategory();
-        
+
+        /*$writer = new \Zend\Log\Writer\Stream(BP.'/var/log/testshipping.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);     
+        $logger->info("Entra AQUI");
+        $logger->info("Code" . $carrierCode);
+        $logger->info("Checkea categoria");*/
+         
+        $hasBikeCategory = $this->hasBikeCategory();
         if ($carrierCode == 'flatrate') {
             if ($hasBikeCategory) {
+                //$logger->info("Deshabilita");
                 return false;
             } 
         } else if ($carrierCode == 'amstorepickup') {
             if (!$hasBikeCategory) {
+                //$logger->info("Deshabilita");
                 return false;
             }
         } 
-           // To enable the shipping method
+        
         return $proceed($carrierCode, $request);
     }
 }
